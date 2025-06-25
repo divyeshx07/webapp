@@ -4,23 +4,23 @@ pipeline {
     stages {
         stage('Restore') {
             steps {
-                sh 'dotnet restore'
+                bat 'dotnet restore'
             }
         }
         stage('Build') {
             steps {
-                sh 'dotnet build --configuration Release'
+                bat 'dotnet build --configuration Release'
             }
         }
         stage('Publish') {
             steps {
-                sh 'dotnet publish -c Release -o out'
+                bat 'dotnet publish -c Release -o out'
             }
         }
         stage('Run') {
             steps {
-                sh 'pkill dotnet || true'
-                sh 'nohup dotnet out/*.dll > output.log 2>&1 &'
+                bat 'taskkill /F /IM dotnet.exe || exit 0'
+                bat 'start /B dotnet out\\*.dll'
             }
         }
     }
