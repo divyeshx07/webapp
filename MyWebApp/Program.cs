@@ -1,11 +1,21 @@
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    WebRootPath = "wwwroot",
+    ApplicationName = typeof(Program).Assembly.FullName,
+    ContentRootPath = Directory.GetCurrentDirectory(),
+    EnvironmentName = Environments.Production
+});
 
-// Add services to the container.
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(5000); // Listen on port 5000
+});
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -18,8 +28,5 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 app.MapRazorPages().WithStaticAssets();
-
-// 🔥 Add this line before `app.Run()`
-app.Urls.Add("http://0.0.0.0:5000"); // Listens on all interfaces
 
 app.Run();
