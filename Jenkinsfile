@@ -27,7 +27,7 @@ pipeline {
             steps {
                 dir('webapp') {
                     bat 'taskkill /F /IM dotnet.exe || exit 0'
-                    bat 'start /B dotnet out\\*.dll'
+                    bat 'start /B dotnet out\\webapp.dll'
                 }
             }
         }
