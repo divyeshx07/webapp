@@ -2,11 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone') {
-            steps {
-                git 'https://github.com/Divyeshx07/webapp.git'
-            }
-        }
         stage('Restore') {
             steps {
                 sh 'dotnet restore'
