@@ -1,0 +1,2 @@
+git add global.json
+git commit -m "Add global.json to force .NET 8 build"
