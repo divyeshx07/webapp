@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
-    serverOptions.ListenAnyIP(5000); // Listen on port 5000
+    serverOptions.ListenAnyIP(5000);
 });
 
 builder.Services.AddRazorPages();
@@ -23,10 +23,15 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// 🔽 ADD this to serve static files
+app.UseStaticFiles();
+
 app.UseRouting();
+
 app.UseAuthorization();
 
-app.MapStaticAssets();
-app.MapRazorPages().WithStaticAssets();
+// 🔽 Map Razor pages only
+app.MapRazorPages();
 
 app.Run();
