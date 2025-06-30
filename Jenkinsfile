@@ -24,12 +24,16 @@ pipeline {
             }
         }
         stage('Publish') {
-            steps {
-                dir('MyWebApp') {
-                    bat 'dotnet publish -c Release -o out'
-                }
-            }
+    steps {
+        dir('MyWebApp') {
+            // Clean previous publish output first (optional but safe)
+            bat 'if exist out (rmdir /S /Q out)'
+
+            // Now publish to a clean 'out' folder
+            bat 'dotnet publish -c Release -o out'
         }
+    }
+}
         stage('Copy to EC2') {
             steps {
                 bat '''
@@ -37,12 +41,12 @@ pipeline {
                 '''
             }
         }
-        stage('Run on EC2') {
-            steps {
-                bat '''
-                ssh -o StrictHostKeyChecking=no -i "%PEM_PATH%" %EC2_USER%@%100.24.43.192% "pkill -f 'dotnet' || true && nohup dotnet %REMOTE_APP_DIR%/MyWebApp.dll > /dev/null 2>&1 &"
-                '''
-            }
+        stage('Run') {
+    steps {
+        dir('MyWebApp') {
+            bat 'taskkill /F /IM dotnet.exe || exit 0'
+            bat 'start /B dotnet out\\MyWebApp.dll'
         }
     }
 }
+
