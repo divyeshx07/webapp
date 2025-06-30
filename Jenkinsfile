@@ -40,7 +40,7 @@ pipeline {
         stage('Copy to EC2') {
             steps {
               bat '''
-                 scp -i "%PEM_PATH%" -r MyWebApp\\out\\* %EC2_USER%@%65.0.169.36%:%REMOTE_APP_DIR%
+                 scp -i "%C:/Users/pd550/Downloads/webkey.pem%" -r MyWebApp\\out\\* %EC2_USER%@%65.0.169.36%:%REMOTE_APP_DIR%
                  '''
                }
             }
