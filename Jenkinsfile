@@ -33,14 +33,14 @@ pipeline {
         stage('Copy to EC2') {
             steps {
                 bat '''
-                pscp -i "%PEM_PATH%" -r MyWebApp\\out\\* %EC2_USER%@%EC2_IP%:%REMOTE_APP_DIR%
+                pscp -i "%PEM_PATH%" -r MyWebApp\\out\\* %EC2_USER%@%100.24.43.192%:%REMOTE_APP_DIR%
                 '''
             }
         }
         stage('Run on EC2') {
             steps {
                 bat '''
-                ssh -o StrictHostKeyChecking=no -i "%PEM_PATH%" %EC2_USER%@%EC2_IP% "pkill -f 'dotnet' || true && nohup dotnet %REMOTE_APP_DIR%/MyWebApp.dll > /dev/null 2>&1 &"
+                ssh -o StrictHostKeyChecking=no -i "%PEM_PATH%" %EC2_USER%@%100.24.43.192% "pkill -f 'dotnet' || true && nohup dotnet %REMOTE_APP_DIR%/MyWebApp.dll > /dev/null 2>&1 &"
                 '''
             }
         }
