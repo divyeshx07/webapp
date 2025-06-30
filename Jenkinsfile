@@ -4,9 +4,9 @@ pipeline {
     environment {
         EC2_USER = "ubuntu"
         EC2_IP = "65.0.169.36"
-        PEM_PATH = "C:/Users/pd550/Downloads/webkey.pem"
+        PEM_PATH = "C:/Users/pd550/Downloads/web-key.pem"
         REMOTE_APP_DIR = "/home/ubuntu/myapp"
-        SCP_EXE = '"C:\\Program Files\\Git\\usr\\bin\\scp.exe"' // adjust if your Git Bash is elsewhere
+        SCP_EXE = "C:\Program Files\Git\usr\bin\scp.exe" // adjust if your Git Bash is elsewhere
     }
 
     stages {
@@ -36,12 +36,12 @@ pipeline {
         }
 
         stage('Copy to EC2') {
-            steps {
-                bat """
-                "%SCP_EXE%" -i "%C:/Users/pd550/Downloads/webkey.pem%" -r MyWebApp/out/* %EC2_USER%@%65.0.169.36%:%REMOTE_APP_DIR%
-                """
-            }
-        }
+    steps {
+        bat """
+        "C:\\Program Files\\Git\\usr\\bin\\scp.exe" -i "%C:/Users/pd550/Downloads/web-key.pem%" -r MyWebApp/out/* %EC2_USER%@%65.0.169.36%:%REMOTE_APP_DIR%
+        """
+    }
+}
 
         stage('Run') {
             steps {
