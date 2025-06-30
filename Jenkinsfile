@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         EC2_USER = "ubuntu"
-        EC2_IP = "100.24.43.192"
+        EC2_IP = "65.0.169.36"
         PEM_PATH = "C:/Users/pd550/Downloads/webappkey.pem"
         REMOTE_APP_DIR = "/home/ubuntu/myapp"
     }
