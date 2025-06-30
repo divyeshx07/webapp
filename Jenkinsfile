@@ -6,16 +6,9 @@ pipeline {
         EC2_IP = "65.0.169.36"
         PEM_PATH = "C:/Users/pd550/Downloads/web-key.pem"
         REMOTE_APP_DIR = "/home/ubuntu/myapp"
-        SCP_EXE = "C:/Program Files/Git/usr/bin/scp.exe"
+        SCP_EXE = "\"C:\\Program Files\\Git\\usr\\bin\\scp.exe\"" // escaped for Windows
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                git url: 'https://github.com/divyeshx07/webapp.git', branch: 'main'
-            }
-        }
-        
     stages {
         stage('Restore') {
             steps {
@@ -44,9 +37,9 @@ pipeline {
 
         stage('Copy to EC2') {
             steps {
-                bat """
-                "${C:/Program Files/Git/usr/bin/scp.exe}" -i "${C:/Users/pd550/Downloads/web-key.pem}" -r "MyWebApp/out/*" %EC2_USER%@%65.0.169.36%:%/home/ubuntu/myapp%
-                """
+                bat '''
+                    "C:\\Program Files\\Git\\usr\\bin\\scp.exe" -i "C:/Users/pd550/Downloads/web-key.pem" -r "C:/ProgramData/Jenkins/.jenkins/workspace/dotnet-webapp/MyWebApp/out/*" ubuntu@65.0.169.36:/home/ubuntu/myapp
+                '''
             }
         }
 
@@ -58,5 +51,5 @@ pipeline {
                 }
             }
         }
-    }
-}
+    } // <-- Make sure this closes the stages block
+} // <-- This closes the pipeline block
