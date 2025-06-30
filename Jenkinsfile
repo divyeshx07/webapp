@@ -1,13 +1,13 @@
 pipeline {
     agent any
 
-    environment {
-        EC2_USER = "ubuntu"
-        EC2_IP = "65.0.169.36"
-        PEM_PATH = "C:/Users/pd550/Downloads/web-key.pem"
-        REMOTE_APP_DIR = "/home/ubuntu/myapp"
-        SCP_EXE = "C:\Program Files\Git\usr\bin\scp.exe" // adjust if your Git Bash is elsewhere
-    }
+   environment {
+    EC2_USER = "ubuntu"
+    EC2_IP = "65.0.169.36"
+    PEM_PATH = "C:/Users/pd550/Downloads/web-key.pem"
+    REMOTE_APP_DIR = "/home/ubuntu/myapp"
+    SCP_EXE = "C:/Program Files/Git/usr/bin/scp.exe"
+}
 
     stages {
         stage('Restore') {
