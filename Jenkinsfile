@@ -6,6 +6,7 @@ pipeline {
         EC2_IP = "65.0.169.36"
         PEM_PATH = "C:/Users/pd550/Downloads/webkey.pem"
         REMOTE_APP_DIR = "/home/ubuntu/myapp"
+        SCP_EXE = '"C:\\Program Files\\Git\\usr\\bin\\scp.exe"' // adjust if your Git Bash is elsewhere
     }
 
     stages {
@@ -28,10 +29,7 @@ pipeline {
         stage('Publish') {
             steps {
                 dir('MyWebApp') {
-                    // Clean previous publish output first (optional but safe)
                     bat 'if exist out (rmdir /S /Q out)'
-
-                    // Now publish to a clean 'out' folder
                     bat 'dotnet publish -c Release -o out'
                 }
             }
@@ -39,12 +37,12 @@ pipeline {
 
         stage('Copy to EC2') {
             steps {
-              bat '''
-                 scp -o "%C:/Users/pd550/Downloads/webkey.pem%" -r MyWebApp\\out\\* %EC2_USER%@%65.0.169.36%:%REMOTE_APP_DIR%
-                 '''
-               }
+                bat '''
+                %SCP_EXE% -i "%C:/Users/pd550/Downloads/webkey.pem%" -r MyWebApp/out/* %EC2_USER%@%65.0.169.36%:%REMOTE_APP_DIR%
+                '''
             }
-        
+        }
+
         stage('Run') {
             steps {
                 dir('MyWebApp') {
