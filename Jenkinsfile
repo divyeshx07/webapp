@@ -36,12 +36,12 @@ pipeline {
         }
 
         stage('Copy to EC2') {
-            steps {
-                bat '''
-                    "C:\\Program Files\\Git\\usr\\bin\\scp.exe" -i "C:/Users/pd550/Downloads/web-key.pem" -r "C:/ProgramData/Jenkins/.jenkins/workspace/dotnet-webapp/MyWebApp/out/*" ubuntu@65.0.169.36:/home/ubuntu/myapp
-                '''
-            }
-        }
+    steps {
+        bat '''
+        "C:\\Program Files\\Git\\usr\\bin\\scp.exe" -i "C:/Users/pd550/Downloads/web-key.pem" -r C:/ProgramData/Jenkins/.jenkins/workspace/dotnet-webapp/MyWebApp/out/* ubuntu@65.0.169.36:/home/ubuntu/myapp
+        '''
+    }
+}
 
         stage('Run') {
             steps {
