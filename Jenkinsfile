@@ -39,12 +39,12 @@ pipeline {
 
         stage('Copy to EC2') {
             steps {
-                bat '''
-                pscp -i "%PEM_PATH%" -r MyWebApp\\out\\* %EC2_USER%@%EC2_IP%:%REMOTE_APP_DIR%
-                '''
+              bat '''
+                 scp -i "%PEM_PATH%" -r MyWebApp\\out\\* %EC2_USER%@%65.0.169.36%:%REMOTE_APP_DIR%
+                 '''
+               }
             }
-        }
-
+        
         stage('Run') {
             steps {
                 dir('MyWebApp') {
