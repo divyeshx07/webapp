@@ -37,9 +37,9 @@ pipeline {
 
         stage('Copy to EC2') {
             steps {
-                bat '''
-                %SCP_EXE% -i "%C:/Users/pd550/Downloads/webkey.pem%" -r MyWebApp/out/* %EC2_USER%@%65.0.169.36%:%REMOTE_APP_DIR%
-                '''
+                bat """
+                "%SCP_EXE%" -i "%C:/Users/pd550/Downloads/webkey.pem%" -r MyWebApp/out/* %EC2_USER%@%65.0.169.36%:%REMOTE_APP_DIR%
+                """
             }
         }
 
