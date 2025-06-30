@@ -10,6 +10,13 @@ pipeline {
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/divyeshx07/webapp.git', branch: 'main'
+            }
+        }
+        
+    stages {
         stage('Restore') {
             steps {
                 dir('MyWebApp') {
@@ -38,7 +45,7 @@ pipeline {
         stage('Copy to EC2') {
             steps {
                 bat """
-                "${C:/Program Files/Git/usr/bin/scp.exe}" -i "${C:/Users/pd550/Downloads/web-key.pem}" -r "MyWebApp/out/*" %EC2_USER%@%65.0.169.36%:%REMOTE_APP_DIR%
+                "${C:/Program Files/Git/usr/bin/scp.exe}" -i "${C:/Users/pd550/Downloads/web-key.pem}" -r "MyWebApp/out/*" %EC2_USER%@%65.0.169.36%:%/home/ubuntu/myapp%
                 """
             }
         }
