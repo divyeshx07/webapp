@@ -16,6 +16,7 @@ pipeline {
                 }
             }
         }
+
         stage('Build') {
             steps {
                 dir('MyWebApp') {
@@ -23,30 +24,34 @@ pipeline {
                 }
             }
         }
-        stage('Publish') {
-    steps {
-        dir('MyWebApp') {
-            // Clean previous publish output first (optional but safe)
-            bat 'if exist out (rmdir /S /Q out)'
 
-            // Now publish to a clean 'out' folder
-            bat 'dotnet publish -c Release -o out'
+        stage('Publish') {
+            steps {
+                dir('MyWebApp') {
+                    // Clean previous publish output first (optional but safe)
+                    bat 'if exist out (rmdir /S /Q out)'
+
+                    // Now publish to a clean 'out' folder
+                    bat 'dotnet publish -c Release -o out'
+                }
+            }
         }
-    }
-}
+
         stage('Copy to EC2') {
             steps {
                 bat '''
-                pscp -i "%PEM_PATH%" -r MyWebApp\\out\\* %EC2_USER%@%100.24.43.192%:%REMOTE_APP_DIR%
+                pscp -i "%PEM_PATH%" -r MyWebApp\\out\\* %EC2_USER%@%EC2_IP%:%REMOTE_APP_DIR%
                 '''
             }
         }
+
         stage('Run') {
-    steps {
-        dir('MyWebApp') {
-            bat 'taskkill /F /IM dotnet.exe || exit 0'
-            bat 'start /B dotnet out\\MyWebApp.dll'
+            steps {
+                dir('MyWebApp') {
+                    bat 'taskkill /F /IM dotnet.exe || exit 0'
+                    bat 'start /B dotnet out\\MyWebApp.dll'
+                }
+            }
         }
     }
 }
-
