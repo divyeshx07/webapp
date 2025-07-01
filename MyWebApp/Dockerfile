@@ -14,7 +14,7 @@ WORKDIR /app
 COPY --from=build /app/out .
 
 # App listens on port 8080
-ENV ASPNETCORE_URLS=http://+:8080
-EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:5000
+EXPOSE 5000
 
 ENTRYPOINT ["dotnet", "MyWebApp.dll"]
