@@ -46,6 +46,17 @@ pipeline {
                 '''
             }
         }
+        stage('Restart Remote App') {
+    steps {
+        bat '''
+        ssh -o StrictHostKeyChecking=no -i "C:/Users/pd550/Downloads/web-key.pem" ubuntu@3.109.5.131 << EOF
+        pkill dotnet || true
+        nohup dotnet /home/ubuntu/myapp/MyWebApp.dll > /home/ubuntu/log.txt 2>&1 &
+        EOF
+        '''
+    }
+}
+
 
         stage('Run') {
             steps {
