@@ -23,13 +23,17 @@ pipeline {
             }
         }
 
-        stage('Publish') {
-            steps {
-                dir('MyWebApp') {
-                    bat 'dotnet publish -c Release -o out'
-                }
-            }
+       stage('Publish') {
+    steps {
+        dir('MyWebApp') {
+            bat '''
+            if exist out rmdir /S /Q out
+            dotnet publish -c Release -o out
+            '''
         }
+    }
+}
+
 
         stage('Build Docker Image') {
             steps {
