@@ -1,16 +1,9 @@
 pipeline {
     agent any
 
-    triggers {
-        githubPush()
-    }
-
     environment {
-        EC2_USER = "ubuntu"
-        EC2_IP = "3.109.5.131"
-        PEM_PATH = "C:/Users/pd550/Downloads/web-key.pem"
-        REMOTE_APP_DIR = "/home/ubuntu/myapp"
-        SCP_EXE = "\"C:\\Program Files\\Git\\usr\\bin\\scp.exe\""
+        IMAGE_NAME = "mywebapp"
+        CONTAINER_NAME = "mywebapp-container"
     }
 
     stages {
@@ -33,26 +26,34 @@ pipeline {
         stage('Publish') {
             steps {
                 dir('MyWebApp') {
-                    bat 'if exist out (rmdir /S /Q out)'
                     bat 'dotnet publish -c Release -o out'
                 }
             }
         }
 
-        stage('Copy to EC2') {
+        stage('Build Docker Image') {
             steps {
-                bat '''
-                "C:\\Program Files\\Git\\usr\\bin\\scp.exe" -o StrictHostKeyChecking=no -i "C:/Users/pd550/Downloads/web-key.pem" -r C:/ProgramData/Jenkins/.jenkins/workspace/dotnet-webapp/MyWebApp/out/* ubuntu@3.109.5.131:/home/ubuntu/myapp
-                '''
+                script {
+                    dir('MyWebApp') {
+                        bat "docker build -t ${IMAGE_NAME} ."
+                    }
+                }
             }
         }
 
-        stage('Run') {
+        stage('Stop Old Container') {
             steps {
-                dir('MyWebApp') {
-                    bat 'taskkill /F /IM dotnet.exe || exit 0'
-                    bat 'start /B dotnet out\\MyWebApp.dll'
+                script {
+                    // Stop and remove old container if exists
+                    bat "docker stop ${CONTAINER_NAME} || exit 0"
+                    bat "docker rm ${CONTAINER_NAME} || exit 0"
                 }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                bat "docker run -d -p 8080:8080 --name ${CONTAINER_NAME} ${IMAGE_NAME}"
             }
         }
     }
