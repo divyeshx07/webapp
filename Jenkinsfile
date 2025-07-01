@@ -1,12 +1,16 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
     environment {
         EC2_USER = "ubuntu"
         EC2_IP = "3.109.5.131"
         PEM_PATH = "C:/Users/pd550/Downloads/web-key.pem"
         REMOTE_APP_DIR = "/home/ubuntu/myapp"
-        SCP_EXE = "\"C:\\Program Files\\Git\\usr\\bin\\scp.exe\"" // escaped for Windows
+        SCP_EXE = "\"C:\\Program Files\\Git\\usr\\bin\\scp.exe\""
     }
 
     stages {
@@ -36,12 +40,12 @@ pipeline {
         }
 
         stage('Copy to EC2') {
-    steps {
-        bat '''
-        "C:\\Program Files\\Git\\usr\\bin\\scp.exe" -o StrictHostKeyChecking=no -i "C:/Users/pd550/Downloads/web-key.pem" -r C:/ProgramData/Jenkins/.jenkins/workspace/dotnet-webapp/MyWebApp/out/* ubuntu@3.109.5.131:/home/ubuntu/myapp
-        '''
-    }
-}
+            steps {
+                bat '''
+                "C:\\Program Files\\Git\\usr\\bin\\scp.exe" -o StrictHostKeyChecking=no -i "C:/Users/pd550/Downloads/web-key.pem" -r C:/ProgramData/Jenkins/.jenkins/workspace/dotnet-webapp/MyWebApp/out/* ubuntu@3.109.5.131:/home/ubuntu/myapp
+                '''
+            }
+        }
 
         stage('Run') {
             steps {
@@ -51,5 +55,5 @@ pipeline {
                 }
             }
         }
-    } // <-- Make sure this closes the stages block
-} // <-- This closes the pipeline block
+    }
+}
