@@ -1,48 +1,80 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+/* Base link styling */
+a {
+  color: #0077cc;
+  text-decoration: none;
+}
+a:hover {
+  color: #005fa3;
+  text-decoration: underline;
+}
 
+/* Navbar Brand */
 a.navbar-brand {
   white-space: normal;
   text-align: center;
-  word-break: break-all;
+  word-break: break-word;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: white !important;
 }
 
-a {
-  color: #0077cc;
-}
-
+/* Buttons */
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+.btn-primary:hover {
+  background-color: #155a9d;
+  border-color: #144e87;
+}
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+/* Pills Active State */
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
+/* Borders */
 .border-top {
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #e5e5e5 !important;
 }
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5 !important;
 }
 
+/* Box shadow utility */
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
+/* Cookie policy button */
 button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
 }
 
+/* Footer Styling */
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+}
+
+/* Hero section */
+.hero {
+  background: linear-gradient(to right, #eef3f8, #dbe9f4);
+  border-radius: 0.5rem;
+  padding: 3rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.05);
+}
+
+/* Utility: Responsive spacing */
+.mt-4 {
+  margin-top: 1.5rem !important;
 }
