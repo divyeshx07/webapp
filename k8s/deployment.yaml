@@ -13,7 +13,9 @@ spec:
         app: mywebapp
     spec:
       containers:
-      - name: mywebapp
-        image: divyeshh07/mywebapp:latest
-        ports:
-        - containerPort: 5000
+- name: mywebapp
+  image: divyeshh07/mywebapp:latest
+  imagePullPolicy: Always
+  ports:
+  - containerPort: 5000
+
